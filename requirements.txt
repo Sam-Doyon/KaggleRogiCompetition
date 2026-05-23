@@ -4,3 +4,4 @@ tqdm
 plotly
 scikit-learn
 jupyter
+torch

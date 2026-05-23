@@ -22,3 +22,18 @@ def plot_wellbore(well_data):
         showlegend=False
     ))
     fig.show()
+
+
+class RogiDataset():
+    def __init__(self, path=Path("../../rogii-wellbore-geology-prediction/train",)):
+        self.path = path
+        self.well_files={
+            f.name.replace("__horizontal_well.csv",""):{"Well":f,"TypeWell":f.parent/f.name.replace("__horizontal_well.csv","__typewell.csv")}
+            for f in self.path.glob("*__horizontal_well.csv")
+            }
+        self.keys = list(self.well_files.keys())
+
+    def __getitem__(self,key:str|int):
+        if isinstance(key, int):
+            key = self.keys[key]
+        return pd.read_csv(self.well_files[key]["Well"]),pd.read_csv(self.well_files[key]["TypeWell"])
